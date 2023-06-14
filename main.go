@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/tls"
 	"errors"
 	"flag"
 	"fmt"
@@ -111,11 +110,9 @@ func main() {
 	}
 
 	srv := &http.Server{
-		Handler: r,
-		Addr:    fmt.Sprintf(":%d", port),
-		TLSConfig: &tls.Config{
-			GetCertificate: certManager.GetCertificate,
-		},
+		Handler:   r,
+		Addr:      fmt.Sprintf(":%d", port),
+		TLSConfig: certManager.TLSConfig(),
 	}
 
 	l.Fatal(srv.ListenAndServeTLS("", ""))
