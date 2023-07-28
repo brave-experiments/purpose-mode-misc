@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -9,7 +10,7 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"time"
+	"syscall"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -35,11 +36,37 @@ var (
 	errFailedToWrite = errors.New("failed to write submission to disk")
 )
 
-func writeToDisk(dir string, blob []byte) error {
-	fileName := time.Now().UTC().Format(time.RFC3339Nano)
-	fullPath := path.Join(dir, fileName)
+// createFilePath creates and returns a directory path if it doesn't exist yet.
+func createFilePath(dir string, blob []byte) (string, error) {
+	uid, err := extractUID(blob)
+	if err != nil {
+		return "", fmt.Errorf("error extracting UID from JSON: %v", err)
+	}
+	msgType, err := extractType(blob)
+	if err != nil {
+		return "", fmt.Errorf("error extracting type from JSON: %v", err)
+	}
 
-	fd, err := os.Create(fullPath)
+	fileName := msgType + ".json"
+	dirPath := path.Join(dir, uid)
+	fullPath := path.Join(dirPath, fileName)
+
+	// Create directories if they don't exist already.
+	if err := os.MkdirAll(dirPath, 0777); err != nil {
+		return "", fmt.Errorf("error creating directories: %v", err)
+	}
+
+	return fullPath, nil
+}
+
+// writeToDisk writes a submission from the extension to disk.
+func writeToDisk(dir string, blob []byte) error {
+	fullPath, err := createFilePath(dir, blob)
+	if err != nil {
+		return err
+	}
+
+	fd, err := os.OpenFile(fullPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		return err
 	}
@@ -61,6 +88,28 @@ func writeToDisk(dir string, blob []byte) error {
 	return nil
 }
 
+func extractType(jsonBlob []byte) (string, error) {
+	m := struct {
+		Type string `json:"type"`
+	}{}
+	err := json.Unmarshal(jsonBlob, &m)
+	if err != nil {
+		return "", err
+	}
+	return m.Type, nil
+}
+
+func extractUID(jsonBlob []byte) (string, error) {
+	m := struct {
+		UID string `json:"uid"`
+	}{}
+	err := json.Unmarshal(jsonBlob, &m)
+	if err != nil {
+		return "", err
+	}
+	return m.UID, nil
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, landingPage)
 }
@@ -74,7 +123,7 @@ func getSubmitHandler(dir string) http.HandlerFunc {
 		}
 
 		if err := writeToDisk(dir, body); err != nil {
-			http.Error(w, errFailedToWrite.Error(), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("%v: %v", errFailedToWrite, err), http.StatusInternalServerError)
 			return
 		}
 	}
@@ -92,6 +141,9 @@ func main() {
 	if fqdn == "" {
 		l.Fatalln("Flag -fqdn is required.")
 	}
+
+	// Reset umask, to get the file and directory permissions we want.
+	l.Printf("Set umask from %#o to 0.", syscall.Umask(0))
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
