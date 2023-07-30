@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from prettytable import PrettyTable
 import time
+from pid import active_pid
 
 def get_unixtime(dt64):
     return dt64.astype('datetime64[s]').astype('int')
@@ -34,14 +35,6 @@ table.field_names = ["UID",
                      "LinkedInFeature",
                      "FacebookFeature",
                      ]
-
-active_pid = [
-    "Hank",
-    "Pilot_1v4",
-    "Harald",
-    "Pilot_3",
-    "sreehari"
-]
 
 for pid in active_pid:
     current_time = int(time.time())
