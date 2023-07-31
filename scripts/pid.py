@@ -8,5 +8,6 @@ active_pid = {
 testing_pid = {
     "Hank",
     "Hank-Chrome",
-    "Hank_Brave"
+    "Hank_Brave",
+    "Hank_Brave-Chrome"
 }
