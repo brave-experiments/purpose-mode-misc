@@ -1,6 +1,6 @@
 active_pid = {
     "Pilot_1v4",
-    "Harald",
+    "Harald_v2",
     "Pilot_3",
     "sreehari"
 }
