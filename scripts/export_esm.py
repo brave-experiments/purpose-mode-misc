@@ -1,4 +1,5 @@
-import json
+#!/usr/bin/env python3
+
 import pandas as pd
 import csv
 import sys
@@ -20,7 +21,8 @@ def main(pid,week):
         tsv_writer.writerow(export_items)
         for index, row in df.iterrows():
             data = row['data']
-            # TODO: add filter for week parameter
+            if data["study_status_intervention"] != has_intervention:
+                continue
             esm_data = [
                 row['uid'],
                 data['esm_site'],

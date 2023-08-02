@@ -1,4 +1,5 @@
-import json
+#!/usr/bin/env python3
+
 import pandas as pd
 from prettytable import PrettyTable
 import time
