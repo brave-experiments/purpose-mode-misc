@@ -23,6 +23,8 @@ def main(pid,week):
             data = row['data']
             if data["study_status_intervention"] != has_intervention:
                 continue
+            if data['esm_responses']['purpose'] == "Others":
+                data['esm_responses']['purpose'] = data['esm_responses']['purpose'] + ": "+data['esm_responses']['purpose_other']
             esm_data = [
                 row['uid'],
                 data['esm_site'],
