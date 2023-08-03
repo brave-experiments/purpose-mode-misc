@@ -35,12 +35,13 @@ def main(pid):
             last_timestamp = 0
 
             phase_1_df = df.loc[df['enableIntervention'] == False]
+            phase_1_df = phase_1_df.iloc[30:,:] # drop the first 30 minutes to account for the onboarding session
+
             if phase_1_df.empty:
                 tsv_writer.writerow([
                     "Phase 1 time spent (min/day)","NA","NA","NA","NA"
                 ])
             else:
-                phase_1_df = phase_1_df.iloc[30:,:] # drop the first 30 minutes to account for the onboarding session
                 phase_1_df_first = phase_1_df.iloc[0:]
                 phase_1_df_last  = phase_1_df.iloc[-1:]
                 if('TimeSpentOnTwitter' in phase_1_df_last.keys()):
@@ -75,12 +76,13 @@ def main(pid):
                 ])
 
             phase_2_df = df.loc[df['enableIntervention'] == True]
+            phase_2_df = phase_2_df.iloc[30:,:]   # drop the first 30 minutes to account for the onboarding session
+            
             if phase_2_df.empty:
                 tsv_writer.writerow([
                     "Phase 2 time spent (min/day)","NA","NA","NA","NA"
                 ])
             else:
-                phase_2_df = phase_2_df.iloc[30:,:]   # drop the first 30 minutes to account for the onboarding session
                 phase_2_df_first = phase_2_df.iloc[0:]
                 phase_2_df_last  = phase_2_df.iloc[-1:]
 
