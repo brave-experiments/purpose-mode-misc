@@ -3,6 +3,7 @@
 import pandas as pd
 import csv
 import sys
+import math
 
 def get_unixtime(dt64):
     return dt64.astype('datetime64[s]').astype('int')
@@ -39,16 +40,29 @@ def main(pid):
                     "Phase 1 time spent (min/day)","NA","NA","NA","NA"
                 ])
             else:
+                phase_1_df = phase_1_df.iloc[30:,:] # drop the first 30 minutes to account for the onboarding session
                 phase_1_df_first = phase_1_df.iloc[0:]
                 phase_1_df_last  = phase_1_df.iloc[-1:]
                 if('TimeSpentOnTwitter' in phase_1_df_last.keys()):
                     phase_1_use["Twitter"]  = phase_1_df_last['TimeSpentOnTwitter'].values[0]/60
+                    if math.isnan(phase_1_use["Twitter"]):
+                        print("Last Twitter spent time is Nan")
+                        phase_1_use["Twitter"] = 0
                 if('TimeSpentOnYouTube' in phase_1_df_last.keys()):
                     phase_1_use["YouTube"]  = phase_1_df_last['TimeSpentOnYouTube'].values[0]/60
+                    if math.isnan(phase_1_use["YouTube"]):
+                        print("Last YouTube spent time is Nan")
+                        phase_1_use["YouTube"] = 0
                 if('TimeSpentOnLinkedIn'in phase_1_df_last.keys()):
                     phase_1_use["LinkedIn"] = phase_1_df_last['TimeSpentOnLinkedIn'].values[0]/60
+                    if math.isnan(phase_1_use["LinkedIn"]):
+                        print("Last LinkedIn spent time is Nan")
+                        phase_1_use["LinkedIn"] = 0
                 if('TimeSpentOnFacebook' in phase_1_df_last.keys()):
                     phase_1_use["Facebook"] = phase_1_df_last['TimeSpentOnFacebook'].values[0]/60
+                    if math.isnan(phase_1_use["Facebook"]):
+                        print("Last Facebook spent time is Nan")
+                        phase_1_use["Facebook"] = 0
                 # print("Twitter use time:",phase_1_df_last['TimeSpentOnFacebook'].values[0])
 
                 time_diff = (get_unixtime(phase_1_df_last['timestamp'].values[0]) - get_unixtime(phase_1_df_first['timestamp'].values[0]))/(60*60*24) # days
@@ -66,6 +80,7 @@ def main(pid):
                     "Phase 2 time spent (min/day)","NA","NA","NA","NA"
                 ])
             else:
+                phase_2_df = phase_2_df.iloc[30:,:]   # drop the first 30 minutes to account for the onboarding session
                 phase_2_df_first = phase_2_df.iloc[0:]
                 phase_2_df_last  = phase_2_df.iloc[-1:]
 
