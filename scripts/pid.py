@@ -10,7 +10,7 @@ done_pid = {
 }
 
 testing_pid = {
-    "Hank",
+    "Hankv3",
     "Hank-Chrome",
     "Hank_Brave",
     "Hank_Brave-Chrome"
