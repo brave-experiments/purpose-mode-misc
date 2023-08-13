@@ -4,13 +4,55 @@ import pandas as pd
 import csv
 import sys
 import math
+import datetime
+import pytz
 
 def get_unixtime(dt64):
     return dt64.astype('datetime64[s]').astype('int')
 
-def main(pid):
+def feature_change(pid):
     df = pd.read_json('../../purpose-mode-data/'+pid+'/ping.json', lines=True)
-    with open('../../purpose-mode-data/'+pid+'/'+pid+'-log.tsv', 'w') as out_file:
+    with open('../../purpose-mode-data/'+pid+'/'+pid+'-feature_log.tsv', 'w') as out_file:
+            tsv_writer = csv.writer(out_file, delimiter='\t')
+            export_items = ['uid',
+                            "site",
+                            "time",
+                            "feature name",
+                            "update value"]
+            tsv_writer.writerow(export_items)
+            
+            current_value = {}
+
+            # init current value
+            features = ["Compact","Infinite","Notif","Feed","Desaturate","Autoplay"]
+            sites = ["Twitter","YouTube","LinkedIn","Facebook"]
+            for feature in features:
+                for site in sites:
+                    current_value[site+feature] = None
+
+            phase_2_df = df.loc[df['enableIntervention'] == True]
+            for index, row in phase_2_df.iterrows():
+                for feature in features:
+                    for site in sites:
+                        if(current_value[site+feature] == None):
+                            current_value[site+feature] = row[site+feature]
+                        else:
+                            if (current_value[site+feature] != row[site+feature]):
+                                # current_timezone = pytz.timezone("US/Eastern")
+                                # print(current_timezone.localize(row["timestamp"]))
+                                tsv_writer.writerow([
+                                    pid,site,
+                                    # current_timezone.localize(row["timestamp"]), # change this into human readable time
+                                    row["local_readable_time"],
+                                    site+feature,
+                                    row[site+feature]
+                                ])
+                                current_value[site+feature] = row[site+feature]
+                
+
+def time_spent(pid):
+    df = pd.read_json('../../purpose-mode-data/'+pid+'/ping.json', lines=True)
+    with open('../../purpose-mode-data/'+pid+'/'+pid+'-time_log.tsv', 'w') as out_file:
             tsv_writer = csv.writer(out_file, delimiter='\t')
             export_items = ['',
                             "Twitter",
@@ -35,7 +77,7 @@ def main(pid):
             last_timestamp = 0
 
             phase_1_df = df.loc[df['enableIntervention'] == False]
-            phase_1_df = phase_1_df.iloc[30:,:] # drop the first 30 minutes to account for the onboarding session
+            # phase_1_df = phase_1_df.iloc[30:,:] # drop the first 30 minutes to account for the onboarding session
 
             if phase_1_df.empty:
                 tsv_writer.writerow([
@@ -76,8 +118,8 @@ def main(pid):
                 ])
 
             phase_2_df = df.loc[df['enableIntervention'] == True]
-            phase_2_df = phase_2_df.iloc[30:,:]   # drop the first 30 minutes to account for the onboarding session
-            
+            # phase_2_df = phase_2_df.iloc[30:,:]   # drop the first 30 minutes to account for the onboarding session
+
             if phase_2_df.empty:
                 tsv_writer.writerow([
                     "Phase 2 time spent (min/day)","NA","NA","NA","NA"
@@ -129,4 +171,5 @@ def main(pid):
 # use: python export_use.py {pid}
 if __name__ == "__main__":
     pid = sys.argv[1]
-    main(pid)
+    time_spent(pid)
+    feature_change(pid)
