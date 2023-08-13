@@ -15,9 +15,9 @@ def main(pid,week):
     
     # read file
     df = pd.read_json('../../purpose-mode-data/'+pid+'/esm.json', lines=True)
-    with open('../../purpose-mode-data/'+pid+'/'+pid+'-interview.tsv', 'w') as out_file:
+    with open('../../purpose-mode-data/'+pid+'/'+pid+'-interview_'+week+'.tsv', 'w') as out_file:
         tsv_writer = csv.writer(out_file, delimiter='\t')
-        export_items = ['uid',"site","time","autoplay_video","notifications","newsfeed_recomm","infinite_newsfeed_scroll","cluttered_layout","saturation","Q1","Q2","Q3","Q4","Q5","Q6","Q7"]
+        export_items = ['uid',"site","is homepage","is youtube video","time","autoplay_video","notifications","newsfeed_recomm","infinite_newsfeed_scroll","cluttered_layout","saturation","Q1","Q2","Q3","Q4","Q5","Q6","Q7"]
         tsv_writer.writerow(export_items)
         for index, row in df.iterrows():
             data = row['data']
@@ -28,6 +28,8 @@ def main(pid,week):
             esm_data = [
                 row['uid'],
                 data['esm_site'],
+                data['esm_is_homepage'],
+                data['esm_is_youtube_watch'],
                 data['esm_time'],
                 data['adjusted_distractions']['adj_autoplay_video'],
                 data['adjusted_distractions']['adj_notifications'],
