@@ -4,6 +4,7 @@ active_pid = {
     "P3",
     "P4",
     "P5",
+    "P6",
     "ys_v2",
     "Pilot_1v7"
 }
