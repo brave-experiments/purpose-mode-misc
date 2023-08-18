@@ -8,6 +8,7 @@ active_pid = {
     "P7",
     "P8",
     "P9",
+    "P9_work",
     "Pilot_1v7"
 }
 
