@@ -11,6 +11,7 @@ active_pid = {
     "P9_work",
     "P10_V3",
     "P10_TV",
+    "P11",
     "Pilot_1v7"
 }
 
@@ -19,8 +20,8 @@ done_pid = {
     "Harald_v2",
     "sreehari",
     "Masood",
-    "Pilot_3v3"
-
+    "Pilot_3v3",
+    "ys"
 }
 
 testing_pid = {
