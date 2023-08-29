@@ -34,7 +34,7 @@ active_group_2 = {
     "P26_personal",
     "P27",
     "P28",
-    "P29"
+    # "P29"
 }
 
 done_pid = {
