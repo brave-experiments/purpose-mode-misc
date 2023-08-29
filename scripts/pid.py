@@ -1,4 +1,4 @@
-active_group_1 = {
+pids = {
     "P1_v2",
     "P2_v2",
     "P3_v2",
