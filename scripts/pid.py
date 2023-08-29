@@ -1,4 +1,4 @@
-pids = {
+active_pid = {
     "P1_v2",
     "P2_v2",
     "P3_v2",
