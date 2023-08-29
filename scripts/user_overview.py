@@ -46,6 +46,7 @@ def main(mode):
         return
 
     for pid in pids:
+        print(pid)
         current_time = int(time.time())
         # read file
         df = pd.read_json('../../purpose-mode-data/'+pid+'/ping.json', lines=True)
