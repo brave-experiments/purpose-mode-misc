@@ -1,4 +1,4 @@
-active_pid = {
+active_group_1 = {
     "P1_v2",
     "P2_v2",
     "P3_v2",
@@ -20,7 +20,8 @@ active_pid = {
     "P17",
     "P18",
     "P19",
-    "P24"
+    "P24",
+    "P27"
 }
 
 done_pid = {
