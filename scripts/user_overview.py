@@ -42,8 +42,7 @@ def main(mode):
     elif (mode == "group_2"):
         pids = active_group_2
     else:
-        print("Unknown pid parameter: ",mode)
-        return
+        pids = [mode]
 
     for pid in pids:
         print(pid)
