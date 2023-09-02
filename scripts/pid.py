@@ -1,4 +1,5 @@
 active_group_1 = {
+    "P3_v2",
     "P5",
     "P11",
     "P12",
@@ -30,7 +31,6 @@ active_group_2 = {
 done_pid = {
     "P1_v2",
     "P2_v2",
-    "P3_v2",
     "P4",
     "P6",
     "P7",
