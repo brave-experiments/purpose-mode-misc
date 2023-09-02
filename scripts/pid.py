@@ -1,19 +1,7 @@
 active_group_1 = {
-    "P1_v2",
-    "P2_v2",
-    "P3_v2",
-    "P4",
     "P5",
-    "P6",
-    "P7",
-    "P8",
-    "P9",
-    "P9_work",
-    "P10_V3",
-    "P10_TV",
     "P11",
     "P12",
-    "P13",
     "P14"
 }
 
@@ -40,6 +28,21 @@ active_group_2 = {
 }
 
 done_pid = {
+    "P1_v2",
+    "P2_v2",
+    "P3_v2",
+    "P4",
+    "P6",
+    "P7",
+    "P8",
+    "P9",
+    "P9_work",
+     "P10_V3",
+    "P10_TV",
+    "P13",
+}
+
+done_pilot = {
     # pilot
     "Harald_v2",
     "sreehari",

@@ -3,7 +3,7 @@
 import pandas as pd
 from prettytable import PrettyTable
 import time
-from pid import active_group_1, active_group_2, testing_pid
+from pid import active_group_1, active_group_2, testing_pid, done_pid
 import sys
 
 def get_unixtime(dt64):
@@ -41,6 +41,8 @@ def main(mode):
         pids = active_group_1
     elif (mode == "group_2"):
         pids = active_group_2
+    elif (mode == "done"):
+        pids = done_pid
     else:
         pids = [mode]
 
