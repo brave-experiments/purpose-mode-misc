@@ -1,13 +1,10 @@
 active_group_1 = {
     "P3_v2",
     "P5",
-    "P14"
 }
 
 active_group_2 = {
-    "P15",
     "P16",
-    "P17",
     "P18",
     "P19",
     "P20",
@@ -15,7 +12,6 @@ active_group_2 = {
     "P22",
     "P23",
     "P23_work",
-    "P24",
     "P25",
     "P26",
     "P26_personal",
@@ -35,11 +31,18 @@ done_pid = {
     "P8",
     "P9",
     "P9_work",
-     "P10_V3",
+    "P10_V3",
     "P10_TV",
     "P11",
     "P12",
     "P13",
+    "P14",
+    "P15",
+    "P17",
+}
+
+drop_id = {
+    "P24",
 }
 
 done_pilot = {
