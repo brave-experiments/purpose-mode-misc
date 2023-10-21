@@ -24,16 +24,20 @@ def feature_change(pid):
             current_value = {}
 
             # init current value
-            features = ["Compact","Infinite","Notif","Feed","Desaturate","Autoplay"]
+            features = ["Compact","Infinite","Notif","Feed","Desaturate","Autoplay","Comments"]
             sites = ["Twitter","YouTube","LinkedIn","Facebook"]
             for feature in features:
                 for site in sites:
+                    if feature == "Comments" and site != "YouTube":
+                        continue
                     current_value[site+feature] = None
 
             phase_2_df = df.loc[df['enableIntervention'] == True]
             for index, row in phase_2_df.iterrows():
                 for feature in features:
                     for site in sites:
+                        if feature == "Comments" and site != "YouTube":
+                            continue
                         if(current_value[site+feature] == None):
                             current_value[site+feature] = row[site+feature]
                         else:
@@ -148,7 +152,7 @@ def time_spent(pid):
 
             # calculate feature usage rate
             total_ping = phase_2_df.shape[0]
-            features = ["Compact","Infinite","SeeMoreClick","Notif","Feed","Desaturate","Autoplay"]
+            features = ["Compact","Infinite","SeeMoreClick","Notif","Feed","Desaturate","Autoplay","Comments"]
             for feature in features:
                 if(feature == "SeeMoreClick"):
                     tsv_writer.writerow([
@@ -157,6 +161,14 @@ def time_spent(pid):
                         phase_2_df_last["YouTube"+feature].values[0],
                         phase_2_df_last["LinkedIn"+feature].values[0],
                         phase_2_df_last["Facebook"+feature].values[0]
+                    ])
+                elif(feature == "Comments"):
+                    tsv_writer.writerow([
+                        feature,
+                        "",
+                        phase_2_df.loc[phase_2_df["YouTube"+feature] == True].shape[0]/total_ping,
+                        "",
+                        ""
                     ])
                 else:
                     tsv_writer.writerow([

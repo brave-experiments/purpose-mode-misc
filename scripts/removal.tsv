@@ -1,0 +1,9 @@
+id	time	reason
+P18	Mon Aug 28 2023 14:04:44 GMT-0700	not really seeing the window (was on a call)
+P20	Fri Aug 25 2023 14:21:39 GMT-0400	not seeing the window
+P20	Fri Aug 25 2023 20:49:28 GMT-0400	not seeing the window
+P22	Wed Sep 06 2023 18:45:51 GMT-0600	participant was waiting the page to be loaded
+P25	Fri Sep 01 2023 16:08:37 GMT-0400	the site was not loaded (with error)
+P29_v2	Wed Sep 06 2023 17:24:46 GMT-0400	the participant wasn't really browsing the websites at the moment (her twitter account got suspended)
+P30_work	Sat Sep 09 2023 18:40:35 GMT-0400	the participant was still trying to login the service; not on the websites yet
+P6	Thu Aug 17 2023 19:52:37 GMT-0400	study onboarding

@@ -3,7 +3,7 @@
 import pandas as pd
 from prettytable import PrettyTable
 import time
-from pid import active_pid, testing_pid
+from pid import active_group_1, active_group_2, testing_pid, done_pid
 import sys
 
 def get_unixtime(dt64):
@@ -37,15 +37,17 @@ table.field_names = ["UID",
                      "FacebookFeature",
                      ]
 def main(mode):
-    if (mode == "active"):
-        pids = active_pid
-    elif (mode == "test"):
-        pids = testing_pid
+    if (mode == "group_1"):
+        pids = active_group_1
+    elif (mode == "group_2"):
+        pids = active_group_2
+    elif (mode == "done"):
+        pids = done_pid
     else:
-        print("Unknown pid parameter: ",mode)
-        return
+        pids = [mode]
 
     for pid in pids:
+        print(pid)
         current_time = int(time.time())
         # read file
         df = pd.read_json('../../purpose-mode-data/'+pid+'/ping.json', lines=True)
